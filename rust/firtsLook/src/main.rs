@@ -1,26 +1,44 @@
-use tokio::time::{sleep, Duration};
+use reqwest::{self, Response};
+
 use tokio::join;
 
-async fn print_something() {
- sleep(Duration::from_secs(3)).await;
- let text: &str  = "Hola desde la funcion";
- println!("{}", text);
- 
+struct Https 
+{
+	url: String,
 }
 
-async fn hola() {
- println!("hola hola");
+impl Https {
+	fn https(url: String) -> Https {
+		Https { url }
+	}
+
+	async fn perform_simple_https(&self) -> Result<String, String>{
+		let response: Response = reqwest::get(&self.url).await.map_err(|e: reqwest::Error| e.to_string())?;
+	
+		let body: String = response.text().await.map_err(|e: reqwest::Error| e.to_string())?;
+	
+		Ok(body)
+	}
 }
+
+
 
 
 #[tokio::main]
-async fn main() {
+async fn main() 
+{
 
- join!(
-  print_something(),
-  hola()
- );
+	let url: String = "https://blanzynetwork.org:8443".to_string();
 
-    
+	let https = Https::https(url);
+
+	join!();
+	match https.perform_simple_https().await {
+		
+		Ok(body) => println!("Body de la request: \n {}", body),
+		Err(e) => eprintln!("Error en la request: {}", e),
+	}
+
+	println!("{}", https.url);
 
 }
