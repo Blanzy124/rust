@@ -1,3 +1,9 @@
+
+pub mod interact;
+
+use std::io;
+
+
 use reqwest::{self, Response};
 
 use tokio::join;
