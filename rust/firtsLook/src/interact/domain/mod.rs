@@ -1,1 +1,2 @@
-pub mod inputs; // Esto vincula interact.rs como submódulo
+pub mod interact;
+pub mod input;

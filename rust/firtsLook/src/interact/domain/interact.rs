@@ -20,10 +20,9 @@ impl Default for LoginInput
 impl LoginInput 
 {
 	//SETTERS
-	pub fn set_input(&mut self, input_: &str) 
+	pub fn set_input(&mut self, input_: &str)
 	{	
 		self.input = input_.to_string();
-
 	}
 
 	pub fn set_error(&mut self, error_: &str)
@@ -59,5 +58,8 @@ impl LoginInput
 
 		self.any_error
 	}
+
+	//PRIVATE
+
 }
 
