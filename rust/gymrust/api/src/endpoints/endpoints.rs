@@ -2,7 +2,7 @@ use actix_web::{HttpResponse, Responder, get, http::StatusCode, post};
 
 #[get("/")]
 pub async fn hello() -> impl Responder {
-    HttpResponse::Ok().status(StatusCode(200)).body("Hola que tal")
+    HttpResponse::Ok().body("Hola que tal")
 }
 
 #[get("/hola")]
