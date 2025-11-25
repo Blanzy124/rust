@@ -1,8 +1,8 @@
-use actix_web::{get, post, HttpResponse, Responder};
+use actix_web::{HttpResponse, Responder, get, http::StatusCode, post};
 
 #[get("/")]
 pub async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+    HttpResponse::Ok().status(StatusCode(200)).body("Hola que tal")
 }
 
 #[get("/hola")]
