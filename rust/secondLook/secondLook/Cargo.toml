@@ -5,3 +5,5 @@ edition = "2024"
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
+sqlx = { version = "0.8", features = [ "runtime-async-std", "tls-rustls-ring-native-roots" ] }
+dotenvy = "0.15"

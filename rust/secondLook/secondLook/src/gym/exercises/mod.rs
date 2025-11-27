@@ -1,2 +1,2 @@
 pub mod exercises;
-pub mod saveGym;
+pub mod save_gym;

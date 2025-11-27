@@ -1,4 +1,7 @@
-use core::str;
+
+use crate::gym::exercises::save_gym::save_gym_db::algo;
+
+use super::save_gym_db;
 
 pub struct Response{
     pub ok: bool,
@@ -16,12 +19,14 @@ impl Response {
     }
 }
 
-pub fn save_on_db(date: String, muscle_group: String, weight: f64, rest: f64, reps: i64, notes: String) -> Response {
-    if date.is_empty() || muscle_group.is_empty() || weight <= 0.0 || rest < 0.0 || reps <= 0 {
+pub async  fn save_on_db(date: &String, muscle_group: &String, weight: &f64, rest: &f64, reps: &i64, notes: &String) -> Response {
+    if date.is_empty() || muscle_group.is_empty() || weight <= &0.0 || rest < &0.0 || reps <= &0 {
 
-        let response: Response =  Response::new(ok: false, String::from("Misiing fields or invalid values"), 400);
+        let response: Response =  Response::new(false, String::from("Misiing fields or invalid values"), 400);
 
-    } else if weight >= 1000.0 || rest > 1000.0 || reps >= 1000 {
+        response
+
+    } else if weight >= &1000.0 || rest > &1000.0 || reps >= &1000 {
         return Response{
             ok: false,
             message: String::from("Invalid values for weight, rest or reps"),
@@ -36,7 +41,7 @@ pub fn save_on_db(date: String, muscle_group: String, weight: f64, rest: f64, re
     }
 }
 
-pub fn delete_exercise(exercise_id: &str) -> Response {
+pub fn delete_exercise(exercise_id: &String) -> Response {
     if exercise_id == "" || exercise_id.is_empty() {
         return Response{
             ok: false,
@@ -51,4 +56,9 @@ pub fn delete_exercise(exercise_id: &str) -> Response {
             error_code: 200,
         };
     }
+}
+
+pub async fn get_exercises() -> String {
+    let name: String = algo(&String::from("NAME")).await;
+    name
 }
