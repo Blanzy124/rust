@@ -58,7 +58,3 @@ pub fn delete_exercise(exercise_id: &String) -> Response {
     }
 }
 
-pub async fn get_exercises() -> String {
-    let name: String = algo(&String::from("NAME")).await;
-    name
-}

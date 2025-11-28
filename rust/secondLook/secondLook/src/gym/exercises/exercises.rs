@@ -1,6 +1,9 @@
+use core::error;
+
 use crate::gym::exercises::save_gym::save_gym::Response;
 
 use super::save_gym::save_gym;
+use super::save_gym::get_gym;
 pub struct Exercises {
  pub date: String,
  pub muscle_group: String,
@@ -37,6 +40,9 @@ impl Exercises {
 }
 
 pub async fn get_exercises() -> String {
- let exercises = save_gym::get_exercises().await; 
- exercises  
+ match get_gym::get_exercises().await {
+     Ok(Exercises) => return Exercises,
+     Err(error) => return error.to_string(),
+ }
+
 }

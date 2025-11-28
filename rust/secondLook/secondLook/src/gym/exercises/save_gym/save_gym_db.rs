@@ -1,10 +1,7 @@
 use dotenvy::dotenv;
 use std::env;
 
-
-
 async fn env(find: &String) -> String{
-
     dotenv().ok();
     let name = env::var(find).unwrap();
     name
