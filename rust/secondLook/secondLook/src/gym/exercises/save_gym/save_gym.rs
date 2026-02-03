@@ -1,8 +1,12 @@
+use serde::{Serialize, Deserialize};
+use serde_json;
 
-use crate::gym::exercises::save_gym::save_gym_db::algo;
+use crate::gym::exercises::save_gym::save_gym_db::{Response_db, algo};
 
 use super::save_gym_db;
+use super::super::exercises::Exercises;
 
+#[derive(Serialize)]
 pub struct Response{
     pub ok: bool,
     pub message: String,
@@ -19,25 +23,27 @@ impl Response {
     }
 }
 
-pub async  fn save_on_db(date: &String, muscle_group: &String, weight: &f64, rest: &f64, reps: &i64, notes: &String) -> Response {
-    if date.is_empty() || muscle_group.is_empty() || weight <= &0.0 || rest < &0.0 || reps <= &0 {
+pub async fn save_on_db(Exercise_: &Exercises) -> String {
+    if Exercise_.date.is_empty() || Exercise_.muscle_group.is_empty() || Exercise_.weight <= 0.0 || Exercise_.rest < 0.0 || Exercise_.reps <= 0 {
 
         let response: Response =  Response::new(false, String::from("Misiing fields or invalid values"), 400);
 
-        response
+        let j_: String = serde_json::to_string(&response).expect("Not valid Json");
 
-    } else if weight >= &1000.0 || rest > &1000.0 || reps >= &1000 {
-        return Response{
-            ok: false,
-            message: String::from("Invalid values for weight, rest or reps"),
-            error_code: 422,
-        };
+        j_
+
+    } else if Exercise_.weight >= 1000.0 || Exercise_.rest > 1000.0 || Exercise_.reps >= 1000 {
+
+        let response: Response = Response::new(false, String::from("Not valid numbers"), 402);
+
+        let j_: String = serde_json::to_string(&response).expect("Not valid Json");
+
+        j_
     } else {
-        return Response{
-            ok: true,
-            message: String::from("Exercise saved successfully"),
-            error_code: 200,
-        };
+        let response: Response_db = save_gym_db::save_exc_db(&Exercise_).await;
+        let j_: String = serde_json::to_string(&response).expect("Not valid Json");
+        j_
+
     }
 }
 

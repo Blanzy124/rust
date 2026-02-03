@@ -1,0 +1,1 @@
+error: invalid character `%` in package name: `tests%C3%9F`, characters must be Unicode XID characters (numbers, `-`, `_`, or most letters)

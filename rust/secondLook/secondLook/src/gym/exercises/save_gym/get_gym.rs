@@ -17,14 +17,14 @@ struct Exercises_ {
     pub notes: Option<String>,
 }
 
-pub async fn get_exercises() -> Result<String, Error> {
+pub async fn get_exercises(user_name: &String) -> Result<String, Error> {
     dotenv().ok();
 
     let database_spects: String = env::var("DATABASE_URL").expect("Database spects not found");
 
     let pool: Pool<MySql> = Pool::connect(&database_spects).await?;
 
-    let responses= sqlx::query!("select bin_to_uuid(exerciseId) as exerciseId, userName, date, muscleGroup, weight, reps, rest, notes from comentsdb.exercises where userName = 'SamuelMedinaBlandon';").fetch_all(&pool).await?;// the error port doesnt matter
+    let responses= sqlx::query!("select bin_to_uuid(exerciseId) as exerciseId, userName, date, muscleGroup, weight, reps, rest, notes from comentsdb.exercises where userName = ?;", user_name).fetch_all(&pool).await?;// the error port doesnt matter
     
     let exercises_: Vec<Exercises_> = responses.into_iter().map(|row| Exercises_ {
         exerciseId: row.exerciseId,
@@ -37,11 +37,16 @@ pub async fn get_exercises() -> Result<String, Error> {
         notes: row.notes,
     }).collect();
 
-    let json = serde_json::to_string(&exercises_).expect("Can not transform to Json");
+    if responses.len() != 0 {
+        let json: String = serde_json::to_string(&exercises_).expect("Can not transform to Json");
 
-    
-    
+        return Ok(json)
+        
+    }
+    else {
+        return  ;
+    }
 
-    Ok(json)
+
 
 }
