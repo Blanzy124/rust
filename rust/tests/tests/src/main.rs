@@ -3,24 +3,26 @@ use std::io::{self, Read};
 use std::io::ErrorKind;
 use std::{fs::File, io::BufReader};
 
-
-
+///Users/SamuelBlandon/Desktop/tests/hola.tx
+//C:\Users\samue\OneDrive\Desktop
 async fn read_file(){
 
     async fn just_read() -> Result<String, io::Error> {
-        let mut f: File = File::open("/Users/SamuelBlandon/Desktop/tests/hola.tx")?;
+        let mut f: File = File::open("C:/Users/samue/OneDrive/Desktop/tests/hola.tx");
+        
         let mut content = String::new();
         
-        let buffer: BufReader<File> = BufReader::new(f);
+        let mut buffer: BufReader<File> = BufReader::new(f);
 
-        buffer.read_to_string(&mut content)?;
+        buffer.read_to_string(&mut content);
+        
+        Ok(content);
 
-        content
     }
 
-    just_read() = match Ok(()){
-        
-    } 
+
+
+    println!("Esto es lo que imprime: {:?}", just_read().await);
 
 }
 
