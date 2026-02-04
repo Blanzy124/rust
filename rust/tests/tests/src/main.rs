@@ -5,10 +5,42 @@ use std::{fs::File, io::BufReader};
 
 ///Users/SamuelBlandon/Desktop/tests/hola.tx
 //C:\Users\samue\OneDrive\Desktop
+
+async fn re() -> String {
+
+    let body = reqwest::get("https://www.blanzynetwork.org").await;
+
+    let mut st = String::new();
+    
+    match body {
+        Ok(re) => {
+
+            match re.text().await {
+                Ok(text) => {
+                    return st = text;
+                }
+                Err(error) => {
+
+                    println!("This was the error {:?}", error);
+
+                    return st = String::from("Someting trying to parce the text");
+                }
+            }
+        }
+        Err(error) => {
+            println!("Something fail on the request: ", error);
+
+            return st = String::from("Bad request");
+        }
+
+    }
+
+}
+
 async fn read_file(){
 
     async fn just_read() -> Result<String, io::Error> {
-        let mut f: File = File::open("C:/Users/samue/OneDrive/Desktop/tests/hola.tx");
+        let mut f = File::open("Users/SamuelBlandon/Desktop/tests/hola.tx")?;
         
         let mut content = String::new();
         
@@ -35,8 +67,11 @@ async fn main() {
 
     let t1 = tokio::spawn(read_file());
 
+    let t3 = tokio::spawn(re());
+    
     let t2 = tokio::spawn(say_hello());
 
-    tokio::join!(t1, t2);
+
+    tokio::join!(t1, t2, t3);
 
 }
