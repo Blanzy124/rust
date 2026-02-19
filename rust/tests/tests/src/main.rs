@@ -1,77 +1,31 @@
-use core::error;
-use std::io::{self, Read};
-use std::io::ErrorKind;
-use std::{fs::File, io::BufReader};
+use axum::{
+    routing::get,
+    Router,
+};
 
-///Users/SamuelBlandon/Desktop/tests/hola.tx
-//C:\Users\samue\OneDrive\Desktop
+async fn say_hello() -> String{
 
-async fn re() -> String {
+    let hello: String = String::from("hola que tal");
 
-    let body = reqwest::get("https://www.blanzynetwork.org").await;
-
-    let mut st = String::new();
+    hello
     
-    match body {
-        Ok(re) => {
-
-            match re.text().await {
-                Ok(text) => {
-                    return st = text;
-                }
-                Err(error) => {
-
-                    println!("This was the error {:?}", error);
-
-                    return st = String::from("Someting trying to parce the text");
-                }
-            }
-        }
-        Err(error) => {
-            println!("Something fail on the request: ", error);
-
-            return st = String::from("Bad request");
-        }
-
-    }
-
 }
 
-async fn read_file(){
+async fn say_goodbye() -> String {
+    let bye: String = String::from("Good Bye");
 
-    async fn just_read() -> Result<String, io::Error> {
-        let mut f = File::open("Users/SamuelBlandon/Desktop/tests/hola.tx")?;
-        
-        let mut content = String::new();
-        
-        let mut buffer: BufReader<File> = BufReader::new(f);
-
-        buffer.read_to_string(&mut content);
-        
-        Ok(content);
-
-    }
-
-
-
-    println!("Esto es lo que imprime: {:?}", just_read().await);
-
+    bye 
 }
 
-async fn say_hello(){
-    println!("Hello, world!");
-}
 
 #[tokio::main]
 async fn main() {
+    // build our application with a single route
+    let app = Router::new().
+    route("/", get(say_hello().await))
+    .route("/path", get(say_goodbye().await));
 
-    let t1 = tokio::spawn(read_file());
-
-    let t3 = tokio::spawn(re());
-    
-    let t2 = tokio::spawn(say_hello());
-
-
-    tokio::join!(t1, t2, t3);
-
+    // run our app with hyper, listening globally on port 3000
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    axum::serve(listener, app).await.unwrap();
 }

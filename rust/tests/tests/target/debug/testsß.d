@@ -1,1 +1,1 @@
-C:\Users\samue\proyects\rust\rust\rust\tests\tests\target\debug\testsß.exe: C:\Users\samue\proyects\rust\rust\rust\tests\tests\src\main.rs
+/Users/SamuelBlandon/proyects/rust/rust/rust/tests/tests/target/debug/testsß: /Users/SamuelBlandon/proyects/rust/rust/rust/tests/tests/src/main.rs
