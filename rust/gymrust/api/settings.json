@@ -1,0 +1,5 @@
+{
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "rust-analyzer.inlayHints.enable": true,
+  "rust-analyzer.cargo.loadOutDirsFromCheck": true
+}

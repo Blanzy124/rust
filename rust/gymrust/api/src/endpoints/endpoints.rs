@@ -1,10 +1,5 @@
 use actix_web::{HttpResponse, Responder, get, http::StatusCode, post};
 
-#[get("/")]
-pub async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hola que tal")
-}
-
 #[get("/hola")]
 pub async fn hola() -> impl Responder {
     HttpResponse::Ok().body("Hello world! 2")

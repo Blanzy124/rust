@@ -1,2 +1,2 @@
 pub mod endpoints;
-pub mod landing_endpoints;
+pub mod user;
